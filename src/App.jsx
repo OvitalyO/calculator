@@ -1,16 +1,18 @@
 import {useState} from 'react'
-
+import store from "./store.js";
 import './App.css'
 
 function App() {
-    const [value, setValue] = useState('0'); //expression
-    const [state, setState]= useState(false); // isExtendedMode
-    // if(value.endsWith('+'| '-')){
-    //     return
-    // }
-    // const buttons = [DE,OFF,3,4,5]
-    const myFunc = e => setValue(value + e.target.value) //changeExpression
+    const [value, setValue] = useState(''); //expression
+    const [state, setState] = useState(false); // isExtendedMode
+
+    //пометить в функции
+    // const buttons = [DE,OFF,3,4,5];
+
+    // const myFunc = e => setValue(value + e.target.item.value) //changeExpression
+    const myFunc = (val)=> setValue( value + val)
     console.log(value)
+
     return (
         <div className='wrapper'>
             {/*<h1 className='calc'>Калькулятор React</h1>*/}
@@ -19,43 +21,55 @@ function App() {
                     <div className='input'>{value}</div>
                 </div>
                 <div>
+                    {store.buttons.map(item => <button
+                        key={item.id}
+                        onClick={()=>myFunc(item.value)}
+                    >
+                        {item.value}
+                    </button>)}
+                </div>
+                <div>
                     {/*добавить симантику*/}
                     <button onClick={() => setState(!state)}>Func</button>
-                        <input type='button' value="DE" onClick={ ()=>setValue(value.slice(0,-1))}/>
-                        <input type='button' value="OFF" onClick={ ()=>setValue('')}/>
-                        <input type='button' value="/" onClick={myFunc}/>
-                        {state === true && <input type='button' value="Fa" onClick={e => setValue(value + e.target.value)}/>}
-
-                    </div>
-                    <div>
-                        <input type='button' value="7" onClick={myFunc}/>
-                        <input type='button' value="8" onClick={myFunc}/>
-                        <input type='button' value="9" onClick={myFunc}/>
-                        <input type='button' value="*" onClick={myFunc}/>
-                        {state === true && <input type='button' value="Da" onClick={e => setValue(value + e.target.value)}/>}
-                    </div>
-                    <div>
-                        <input type='button' value="4" onClick={e => setValue(value +e.target.value)}/>
-                        <input type='button' value="5" onClick={e => setValue(value +e.target.value)}/>
-                        <input type='button' value="6" onClick={e => setValue(value +e.target.value)}/>
-                        <input type='button' value="+" onClick={e => setValue(value + e.target.value)}/>
-                        {state === true && <input type='button' value="Net" onClick={e => setValue(value + e.target.value)}/>}
-                    </div>
-                    <div>
-                        <input type='button' value="1" onClick={e => setValue(value +e.target.value)}/>
-                        <input type='button' value="2" onClick={e => setValue(value +e.target.value)}/>
-                        <input type='button' value="3" onClick={e => setValue(value +e.target.value)}/>
-                        <input type='button' value="-" onClick={e => setValue(value + e.target.value)}/>
-                        {state === true && <input type='button' value="Get" onClick={e => setValue(value + e.target.value)}/>}
-                    </div>
-                    <div>
-                        <input type='button' value="00" onClick={e => setValue(value +e.target.value)}/>
-                        <input type='button' value="0" onClick={e => setValue(value +e.target.value)}/>
-                        <input type='button' value="." onClick={e => setValue(value + e.target.value)}/>
-                        <input type='button' value="="  onClick={e=> setValue(eval(value))}/>
-                        {/*eval*/}
-                        {state === true && <input type='button' value="Ya" onClick={e => setValue(value + e.target.value)}/>}
-                    </div>
+                    <input type='button' value="DE" onClick={() => setValue(value.slice(0, -1))}/>
+                    <input type='button' value="OFF" onClick={() => setValue('')}/>
+                    <input type='button' value="/" onClick={myFunc}/>
+                    {state === true &&
+                        <input type='button' value="Fa" onClick={e => setValue(value + e.target.value)}/>}
+                </div>
+                {/*<div>*/}
+                {/*    <input type='button' value="7" onClick={myFunc}/>*/}
+                {/*    <input type='button' value="8" onClick={myFunc}/>*/}
+                {/*    <input type='button' value="9" onClick={myFunc}/>*/}
+                {/*    <input type='button' value="*" onClick={myFunc}/>*/}
+                {/*    {state === true &&*/}
+                {/*        <input type='button' value="Da" onClick={e => setValue(value + e.target.value)}/>}*/}
+                {/*</div>*/}
+                {/*<div>*/}
+                {/*    <input type='button' value="4" onClick={e => setValue(value + e.target.value)}/>*/}
+                {/*    <input type='button' value="5" onClick={e => setValue(value + e.target.value)}/>*/}
+                {/*    <input type='button' value="6" onClick={e => setValue(value + e.target.value)}/>*/}
+                {/*    <input type='button' value="+" onClick={e => setValue(value + e.target.value)}/>*/}
+                {/*    {state === true &&*/}
+                {/*        <input type='button' value="Net" onClick={e => setValue(value + e.target.value)}/>}*/}
+                {/*</div>*/}
+                {/*<div>*/}
+                {/*    <input type='button' value="1" onClick={e => setValue(value + e.target.value)}/>*/}
+                {/*    <input type='button' value="2" onClick={e => setValue(value + e.target.value)}/>*/}
+                {/*    <input type='button' value="3" onClick={e => setValue(value + e.target.value)}/>*/}
+                {/*    <input type='button' value="-" onClick={e => setValue(value + e.target.value)}/>*/}
+                {/*    {state === true &&*/}
+                {/*        <input type='button' value="Get" onClick={e => setValue(value + e.target.value)}/>}*/}
+                {/*</div>*/}
+                {/*<div>*/}
+                {/*    <input type='button' value="00" onClick={e => setValue(value + e.target.value)}/>*/}
+                {/*    <input type='button' value="0" onClick={e => setValue(value + e.target.value)}/>*/}
+                {/*    <input type='button' value="." onClick={e => setValue(value + e.target.value)}/>*/}
+                {/*    <input type='button' value="=" onClick={e => setValue(eval(value))}/>*/}
+                {/*    /!*eval убрать*!/*/}
+                {/*    {state === true &&*/}
+                {/*        <input type='button' value="Ya" onClick={e => setValue(value + e.target.value)}/>}*/}
+                {/*</div>*/}
             </div>
 
             {/*<br/>*/}
