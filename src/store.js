@@ -1,13 +1,14 @@
+import {compute} from "./helpers.js";
+
 const NUMBER_TYPE = 'number';
 const OPERATION_TYPE = 'operation';
 const OPERATIONS = ['+', '-', '*', '/']
 
 function inputNumber(setExpr) {
     return () => {
-        console.log(this.value, this.value)
         setExpr(expr => {
-
-            if (!expr.length || isNaN(expr[expr.length - 1])) expr.push(this.value)
+            console.log('Ghh',expr, this.value)
+            if (!expr.length || OPERATIONS.includes(expr[expr.length - 1])) expr.push(this.value)
             else expr[expr.length - 1] += this.value
             return [...expr]
         })
@@ -16,13 +17,17 @@ function inputNumber(setExpr) {
 
 function inputOperation(setExpr) {
     return () => {
-        console.log(this.value)
+        console.log('inputOperation',this.value)
         setExpr(expr => {
             !OPERATIONS.includes(expr[expr.length - 1]) ? expr.push(this.value) : expr.slice(0, -1).push(this.value)
             return [...expr]
         })
 
     }
+}
+
+function calculate (setExpr) {
+    return () => setExpr(compute)
 }
 
 let store = {
@@ -41,7 +46,7 @@ let store = {
         {value: '*', type: OPERATION_TYPE, cb: inputOperation},
         {value: '-', type: OPERATION_TYPE, cb: inputOperation},
         {value: '+', type: OPERATION_TYPE, cb: inputOperation},
-        // {value: '=', type: OPERATION_TYPE, cb: inputOperation},
+        {value: '=', type: OPERATION_TYPE, cb: calculate},
     ]
 }
 export default store;

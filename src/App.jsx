@@ -4,7 +4,7 @@ import './App.css'
 
 function App() {
     const [expr, setExpr] = useState([]); //expression
-    console.log(expr)
+    console.log('App',expr)
     return (
         <div className='wrapper'>
             {/*<h1 className='calc'>Калькулятор React</h1>*/}
