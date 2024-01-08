@@ -8,23 +8,24 @@ function inputNumber(setExpr) {
     return () => {
         setExpr(expr => {
             console.log('Ghh',expr, this.value)
-            if (!expr.length || OPERATIONS.includes(expr[expr.length - 1])) expr.push(this.value)
-            else expr[expr.length - 1] += this.value
-            return [...expr]
+            if (!expr.length || OPERATIONS.includes(expr[expr.length - 1])) return [...expr, this.value]
+            else return [...expr.slice(0, -1), expr[expr.length - 1] + this.value]
         })
     };
-}
+  }
 
-function inputOperation(setExpr) {
+  function inputOperation(setExpr) {
     return () => {
-        console.log('inputOperation',this.value)
-        setExpr(expr => {
-            !OPERATIONS.includes(expr[expr.length - 1]) ? expr.push(this.value) : expr.slice(0, -1).push(this.value)
-            return [...expr]
-        })
+    console.log('inputOperation',this.value)
+      setExpr(expr => {
+        if (!expr.length) return ['0', this.value]
+        if (!OPERATIONS.includes(expr[expr.length - 1])) expr.push(this.value)
+        else expr[expr.length - 1] = this.value
+        return [...expr]
+      })
 
     }
-}
+  }
 
 function calculate (setExpr) {
     return () => setExpr(compute)

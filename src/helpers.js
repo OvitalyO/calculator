@@ -45,7 +45,7 @@ function infixToRPN(tokens, precedence = PRECEDENCE) {
 const sum = (a, b) => a + b
 const substuct = (a, b) => a - b
 const multiply = (a, b) => a * b
-const divide = (a, b) => a / b
+const divide = (a, b) => (a / b).toFixed(5)
 
 function arithmetic (a, op, b) {
     switch(op) {
