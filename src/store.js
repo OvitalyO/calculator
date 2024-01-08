@@ -1,16 +1,30 @@
 const NUMBER_TYPE = 'number';
-const OPERATION = 'operation';
-const inputNumber = (setValue, value) => e => {
-    console.log(value, e.target.value)
-    setValue(value + e.target.value)
-};
+const OPERATION_TYPE = 'operation';
+const OPERATIONS = ['+', '-', '*', '/']
 
-const inputOperation = (setValue, value) => e => {
-    console.log(value, e.target.value)
-    if (!['+','-','*','/'].includes(value.split('').pop())) {
-        setValue(value + e.target.value)
+function inputNumber(setExpr) {
+    return () => {
+        console.log(this.value, this.value)
+        setExpr(expr => {
+
+            if (!expr.length || isNaN(expr[expr.length - 1])) expr.push(this.value)
+            else expr[expr.length - 1] += this.value
+            return [...expr]
+        })
+    };
+}
+
+function inputOperation(setExpr) {
+    return () => {
+        console.log(this.value)
+        setExpr(expr => {
+            !OPERATIONS.includes(expr[expr.length - 1]) ? expr.push(this.value) : expr.slice(0, -1).push(this.value)
+            return [...expr]
+        })
+
     }
-};
+}
+
 let store = {
     buttons: [
         {value: '1', type: NUMBER_TYPE, cb: inputNumber},
@@ -23,19 +37,11 @@ let store = {
         {value: '8', type: NUMBER_TYPE, cb: inputNumber},
         {value: '9', type: NUMBER_TYPE, cb: inputNumber},
         {value: '0', type: NUMBER_TYPE, cb: inputNumber},
-        {value: '/', type: OPERATION, cb: inputOperation},
-        {value: '*', type: OPERATION, cb: inputOperation},
-        {value: '-', type: OPERATION, cb: inputOperation},
-        {value: '+', type: OPERATION, cb: inputOperation},
-        // {value: '=', type: OPERATION, cb: inputOperation},
+        {value: '/', type: OPERATION_TYPE, cb: inputOperation},
+        {value: '*', type: OPERATION_TYPE, cb: inputOperation},
+        {value: '-', type: OPERATION_TYPE, cb: inputOperation},
+        {value: '+', type: OPERATION_TYPE, cb: inputOperation},
+        // {value: '=', type: OPERATION_TYPE, cb: inputOperation},
     ]
 }
 export default store;
-
-// const inputNumber = function (setValue) { return function (val) {
-//     console.log(this)
-//     setValue(prevState => {
-//         console.log(this)
-//         return prevState + val
-//     })
-// }};
